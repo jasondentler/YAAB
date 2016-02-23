@@ -1,0 +1,138 @@
+﻿@import "../lib/bootstrap/less/bootstrap.less";
+
+@imagesPath: '../images';
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.full-screen .container.body-content {
+    margin: 0 0 0 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+}
+
+/* Set widths on the form inputs since otherwise they're 100% wide */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* Carousel */
+.carousel-caption {
+    z-index: 10 !important;
+}
+
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+    .carousel-caption {
+        z-index: 10 !important;
+    }
+}
+
+.text-faint {
+    color: rgba(119, 119, 119, 0.5);
+}
+
+.card-cell {
+    min-height: 5em;
+    min-width: 10em;
+    height:100%;
+}
+
+.card-dragdrop-placeholder {
+    .bg-warning;
+    .text-warning;
+    min-height: 5em;
+    min-width: 10em;
+    height: 100%;
+    width: 100%;
+}
+
+.card {
+    width: 250px;
+    display: inline-block;
+
+    .panel-heading {
+        padding: 4px 4px 4px 4px;
+    }
+
+    .panel-body {
+        padding: 4px 4px 4px 4px;
+    }
+
+
+    hr {
+        margin: 2px 2px 2px 5px;
+    }
+
+    .label {
+        padding-bottom: 0;
+    }
+}
+
+.card.blocked .panel-body {
+    background-image: url("@{imagesPath}/blocked.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+}
+
+.card.ready .panel-body {
+    background-image: url("@{imagesPath}/ready.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+}
+
+.card-type(@card-border-color, @card-background-color, @card-foreground-color) {
+    border-color: @card-border-color;
+
+    > .panel-heading {
+        color: @card-foreground-color;
+        background-color: @card-background-color;
+        border-color: @card-border-color;
+
+        .badge {
+            color: @card-background-color;
+            background-color: @card-foreground-color;
+        }
+    }
+
+    > .panel-heading + .panel-collapse > .panel-body {
+        border-top-color: @card-border-color;
+    }
+
+    > .panel-footer + .panel-collapse > .panel-body {
+        border-bottom-color: @card-border-color;
+    }
+}
+
+
+.card-task {
+    .card-type(#a80, #fd0, black);
+}
+
+.card-bug {
+    .card-type(#d00, #f99, black);
+}
+
+.card-merge {
+    .card-type(#00f, #99f, black);
+}
+
+.card-demo {
+    .card-type(#4c0, #6f0, black);
+}

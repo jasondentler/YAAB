@@ -1,0 +1,19 @@
+﻿@using Newtonsoft.Json
+@model IRequireAccessor
+@{
+    var config = @Url.Content("~/js/app/require/config.js");
+}
+<script type="text/javascript" src="~/lib/requirejs/require.js"></script>
+<script async type="text/javascript">
+    require(['@config'], function() {
+        window.data = {};
+        @foreach (var item in Model.Data)
+        {
+            <text>
+        window.data[@Html.Raw(JsonConvert.SerializeObject(item.Key))] = @Html.Raw(item.Value);
+            </text>
+        }
+        var scripts = @Html.Raw(JsonConvert.SerializeObject(Model.Scripts));
+        require(scripts, function() {});
+    });
+</script>

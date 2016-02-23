@@ -1,0 +1,101 @@
+﻿@using System.Threading.Tasks
+@using YetAnotherAgileBoard.Web.ViewModels
+@model ProjectViewModel
+@inject IRequire require;
+@{
+    require.Script("app/projectViewComponent/main");
+    require.Data("project", Model);
+}
+
+<table class="table table-condensed agile-board">
+    <colgroup>
+        <col style="width: 10%"/>
+    </colgroup>
+    <colgroup data-bind="foreach: headers">
+        <col data-bind="style: {width: (90.0 / $parent.headers().length) + '%' }"/>
+    </colgroup>
+    <thead>
+    <tr data-bind="foreach: {data: headers, as: 'header'}">
+        <th data-bind="text: header"></th>
+    </tr>
+    </thead>
+    <tbody data-bind="foreach: swimlanes">
+    <tr>
+        <td>
+            <div data-bind="text: id"></div>
+            <div data-bind="text: title"></div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active"
+                     role="progressbar"
+                     aria-valuemin="0"
+                     aria-valuemax="100"
+                     style="min-width: 2em"
+                     data-bind="
+                         text: completion() + '%',
+                         attr: {'aria-valuenow': completion},
+                         style: {width: completion() + '%' }">
+                </div>
+            </div>
+        </td>
+        <!-- ko foreach: columns -->
+        <td class="card-cell"
+            data-bind="sortable: { 
+                    template: 'card-template', 
+                    data: cards,
+                    afterMove: $data.afterMove,
+                    options: {
+                        placeholder: 'card-dragdrop-placeholder',
+                        containment: '.agile-board',
+                        cursor: 'move',
+                        connectWith: '.card-cell'
+                    }
+                }">
+        </td>
+        <!-- /ko -->
+    </tr>
+    </tbody>
+</table>
+
+<script type="text/html" id="card-template">
+    <div class="card panel" data-bind="attr: {
+         'class': 'card panel ' + typeClass()
+    },
+         css: {
+         'ready': isReady,
+         'blocked': isBlocked
+    },
+         style: {
+            '-webkit-transform': transform(), 
+            '-o-transform': transform(), 
+            'transform': transform(), 
+            'MozTransform': transform()
+         }">
+        <div class="panel-heading">
+            <!-- ko if: userEmail -->
+            <img data-bind="attr: {alt: userName}, gravatar: {credential: userEmail, size: 40, defaultImage: 'monsterid'}"
+                 class="img-rounded pull-right" />
+            <!-- /ko -->
+            <small data-bind="text: id"></small>
+            <!-- ko if: estimate -->
+            <span class="text-faint">&nbsp;|&nbsp;</span>
+            <small data-bind="text: estimate">
+            </small>
+            <!-- /ko -->
+        </div>
+        <div class="panel-body">
+            <span class="text-capitalize" data-bind="text: title"></span>
+            <!-- ko if: description -->
+            <p class="text-muted">
+                <small data-bind="text: description">
+                </small>
+            </p>
+            <!-- /ko -->
+            <!-- ko if: !!labels() && !!(labels().length)  -->
+            <hr />
+            <!-- /ko -->
+            <!-- ko foreach: labels -->
+            <span data-bind="text: text, attr: {'class': 'label ' + typeClass()}"></span>
+            <!-- /ko -->
+        </div>
+    </div>
+</script>

@@ -1,0 +1,60 @@
+﻿@using System.Threading.Tasks
+@using YetAnotherAgileBoard
+@model YetAnotherAgileBoard.Web.ViewModels.CardViewModel
+@{
+    var cardClasses = new List<string>();
+    if (!string.IsNullOrWhiteSpace(Model.Type))
+    {
+        cardClasses.Add("panel-" + Model.Type);
+    }
+    if (Model.IsBlocked)
+    {
+        cardClasses.Add("blocked");
+    }
+    if (Model.IsReady)
+    {
+        cardClasses.Add("ready");
+    }
+}
+<div class="card panel @string.Join(" ", cardClasses)">
+    <div class="panel-heading">
+        @if (!string.IsNullOrWhiteSpace(Model.UserEmail))
+        {
+            <img alt="@Model.UserName"
+                 src="@Gravatar.GetUrl(Model.UserEmail, size: 40, defaultImage: Gravatar.DefaultImage.Blank)"
+                 class="img-rounded pull-right" />
+        }
+        <small>@Model.Id</small>
+        @if (!string.IsNullOrWhiteSpace(Model.Estimate))
+        {
+            <text>
+                <span class="text-faint">&nbsp;|&nbsp;</span>
+                <small>
+                    @Model.Estimate
+                </small>
+            </text>
+        }
+    </div>
+    <div class="panel-body">
+        <span class="text-capitalize">@Model.Title</span>
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <p class="text-muted">
+                <small>
+                    @Model.Description
+                </small>
+            </p>
+        }
+
+        @if (Model.Labels.Any())
+        {
+            <text>
+            <hr />
+            @foreach (var label in Model.Labels)
+                {
+                <span class="label label-@label.Type">@label.Text</span>
+            }
+            </text>
+        }
+    </div>
+</div>

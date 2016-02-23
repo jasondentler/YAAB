@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "system",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "target": "es2015"
+  },
+  "exclude": ["wwwroot/ts/typings","node_modules"]
+}
